@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -55,37 +49,28 @@ intercept = coefficients[1]
 # Calculate the predicted values using the linear regression model
 predicted_gdp = slope * co2_data[:, 1] + intercept
 
-# Calculate Mean Squared Error (MSE)
-mse = np.mean((gdp_data[:, 1] - predicted_gdp)**2)
-
 # Calculate R-squared (R2)
 mean_gdp = np.mean(gdp_data[:, 1])
-ssr = np.sum((predicted_gdp - mean_gdp)**2)
-sst = np.sum((gdp_data[:, 1] - mean_gdp)**2)
-r_squared = 1 - (mse / sst)
-
-# Calculate Sum of Squared Errors (SSE)
-sse = np.sum((gdp_data[:, 1] - predicted_gdp)**2)
+sse = np.sum((gdp_data[:, 1] - predicted_gdp) ** 2)
+sst = np.sum((gdp_data[:, 1] - mean_gdp) ** 2)
+r_squared = 1 - (sse / sst)
 
 # Create scatter plot
 plt.scatter(co2_data[:, 1], gdp_data[:, 1], s=50, label='Data Points')
 
 # Plot the line of best fit
-plt.plot(co2_data[:, 1], predicted_gdp, color='orange', label=f'Line of Best Fit')
+plt.plot(co2_data[:, 1], predicted_gdp, color='orange', label=f'Line of Best Fit (R2={r_squared:.2f})')
 
 # Set plot title and labels
 plt.title('CO2 Emission vs GDP')
 plt.xlabel('Annual CO2 emissions')
 plt.ylabel('GDP per capita')
 
-# Display the equation of the line as text on the plot
-equation_of_line = f'GDP per capita = {slope} * Annual CO2 emissions + {intercept}'
-
-
 # Display the plot
 plt.legend()
 plt.show()
-print(f'R squared value = {r_squared}')
+
+# Print the R-squared value
+print(f'R-squared = {r_squared}')
 print(f'Equation of line = {equation_of_line}')
 print(f'MSE = {mse}')
-
