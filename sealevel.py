@@ -6,6 +6,7 @@ import csv
 from datetime import date
 from scipy.stats import linregress
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 
 
 def main():
@@ -42,14 +43,18 @@ def main():
         if x in co2:
             ycoord.append(seaLevel[x][0] / seaLevel[x][1])
 
-    m, b = np.polyfit(xcoord, ycoord, 1)
     x = np.array(xcoord)
     y = np.array(ycoord)
-    plt.plot(x, m*x+b, color='red')
+    mymodel = np.poly1d(np.polyfit(x, y, 3))
+    print(mymodel)
+    myline = np.linspace(min(xcoord), max(xcoord), len(xcoord))
+    print(myline)
     plt.scatter(xcoord, ycoord)
+    plt.plot(myline, mymodel(myline), color='r')
 
     plt.xlabel("Average Co2 Emissions")
     plt.ylabel("Church and White Sea Level Rise (mm)")
-    plt.show()
+    print(r2_score(y, mymodel(x)))
+    # plt.show()
 if __name__ == "__main__":
     main()
